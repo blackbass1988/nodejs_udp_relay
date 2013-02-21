@@ -16,8 +16,7 @@ var stream = fs.createWriteStream("received.json", { flags: 'w',
 var server = dgram.createSocket("udp4");
 
 server.on("message", function (msg, rinfo) {
-    console.log("server got: " + msg + " from "  + 
-    rinfo.address + ":" + rinfo.port);
+//    console.log("server got: " + msg + " from "  + rinfo.address + ":" + rinfo.port);
     var data = JSON.parse(msg); 
     var session = collection.findOne({name: data.name}, function(err, result){
         if (!err) {
@@ -26,7 +25,7 @@ server.on("message", function (msg, rinfo) {
                     if (err) {console.log(err);}
                 });
             } else {
-                collection.insert(data, function(err, result) {
+                collection.insert(data, {w:1}, function(err, result) {
                     if (err) {console.log(err);}
                 });
             }
