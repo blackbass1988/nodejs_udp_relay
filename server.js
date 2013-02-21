@@ -5,25 +5,34 @@ var collection = null;
 
 var connect = MongoClient.connect("mongodb://localhost:27017/test", function(err, db) {
         if(!err) { console.log("We are connected"); }   
-        collection = db.collection('test');
+        collection = db.collection('session');
         server.bind(41234);
 });
-
-
 
 var stream = fs.createWriteStream("received.json", { flags: 'w',
     encoding: "utf8",
     mode: 0666 });
 
 var server = dgram.createSocket("udp4");
+
 server.on("message", function (msg, rinfo) {
     console.log("server got: " + msg + " from "  + 
     rinfo.address + ":" + rinfo.port);
-    console.info(collection);
-    collection.insert({data: msg}, function(err, result) {
-        if (!err) {console.log(err);}
+    var data = JSON.parse(msg); 
+    var session = collection.findOne({name: data.name}, function(err, result){
+        if (!err) {
+            if (result) {
+                collection.update({name: data.name}, {$set:data}, {w:1}, function(err, result){
+                    if (err) {console.log(err);}
+                });
+            } else {
+                collection.insert(data, function(err, result) {
+                    if (err) {console.log(err);}
+                });
+            }
+        }
     });
-    //stream.write(msg);
+
 });
 
 server.on("listening", function () { 
