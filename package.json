@@ -1,0 +1,7 @@
+{
+    "name": "udp_relay",
+    "private": true,
+    "dependencies": {
+        "mongodb": ">=0.9.6-7"
+    }
+}
