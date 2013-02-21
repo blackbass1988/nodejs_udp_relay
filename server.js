@@ -6,6 +6,7 @@ var collection = null;
 var connect = MongoClient.connect("mongodb://localhost:27017/test", function(err, db) {
         if(!err) { console.log("We are connected"); }   
         collection = db.collection('test');
+        server.bind(41234);
 });
 
 
@@ -30,5 +31,3 @@ server.on("listening", function () {
     console.log("server listening " + 
         address.address + ":" + address.port);
 });
-
-server.bind(41234);
