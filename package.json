@@ -1,10 +1,10 @@
 {
     "name": "udp_relay",
-    "version":"0.1",
+    "version":"",
     "private": true,
     "dependencies": {
         "mongodb": ">=0.9.6-7",
         "memcached" : ">=0.2.0"
     },
-    "engine": "node >= 0.8.0"
+    "engine": "node>=0.8.0"
 }
