@@ -24,5 +24,5 @@ How to run?
 -----------
 
 - npm install
-- node server.js (--mongo <mongoconnect> --memcache <memcacheconnect> --db <db> --collection <collection>
+- node server.js (--mongo &lt;mongoconnect&gt; --memcache &lt;memcacheconnect&gt; --db &lt;db&gt; --collection &lt;collection&gt;)
 
