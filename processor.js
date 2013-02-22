@@ -1,7 +1,7 @@
 module.exports = {
 
-    process: function (one, two) {
-        one.body = two.body + one.body;
-        return one;
+    process: function (data, delta) {
+        data.body += delta.body;
+        return data;
     }
 }
