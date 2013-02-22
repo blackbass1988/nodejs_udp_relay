@@ -7,9 +7,14 @@ var memcacheClient = new Memcached('127.0.0.1:11211');
 var collection = null;
 
 var connect = MongoClient.connect("mongodb://localhost:27017/test", function(err, db) {
-        if(!err) { console.log("We are connected"); }   
-        collection = db.collection('session');
-        server.bind(41234);
+        if(!err) { 
+            console.log("We are connected"); 
+            collection = db.collection('session');
+            server.bind(41234);
+        } else {
+            console.log(err);
+            process.kill();
+        }
 });
 
 var stream = fs.createWriteStream("received.json", { flags: 'w',
