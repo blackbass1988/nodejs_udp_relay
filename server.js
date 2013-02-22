@@ -1,18 +1,32 @@
-var memcacheHost = '127.0.0.1:11211';
-var mongoConnect = "mongodb://localhost:27017/test";
 
-var dgram = require("dgram");
-var fs = require('fs');
-var MongoClient = require('mongodb').MongoClient;
-var Memcached = require('memcached');
-var memcacheClient = new Memcached(memcacheHost);
 
+
+var dgram = require('dgram'),
+    nconf = require('nconf'),
+    fs = require('fs'),
+    MongoClient = require('mongodb').MongoClient,
+    Memcached = require('memcached');
+
+nconf.argv()
+     .env()
+     .file({file: 'config.json'});
+
+var memcacheHost = nconf.get('memcache');
+var mongoHost = nconf.get('mongo');
+var mongoCollection = nconf.get('collection');
 var collection = null;
 
-var connect = MongoClient.connect(mongoConnect, function(err, db) {
+console.log("~ Session proxy 0.1.0");
+console.log("~");
+console.log("~");
+console.log("~ Mongo host = " + mongoHost);
+console.log("~ Memcache host = " + memcacheHost);
+
+var memcacheClient = new Memcached(memcacheHost);
+var connect = MongoClient.connect(mongoHost, function(err, db) {
         if(!err) { 
-            console.log("We are connected"); 
-            collection = db.collection('session');
+            console.log("~ Mongo connected"); 
+            collection = db.collection(mongoCollection);
             server.bind(41234);
         } else {
             console.log(err);
@@ -48,6 +62,6 @@ server.on("message", function (msg, rinfo) {
 
 server.on("listening", function () { 
     var address = server.address();
-    console.log("server listening " + 
+    console.log("~ Server listening " + 
         address.address + ":" + address.port);
 });

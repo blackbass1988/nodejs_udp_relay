@@ -1,0 +1,5 @@
+{
+    "mongo": "mongodb://localhost:27017/test",
+    "memcache": "localhost:11211",
+    "collection": "session"
+}
