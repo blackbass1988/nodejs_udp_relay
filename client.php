@@ -1,5 +1,5 @@
 <?php
-$server = "192.168.200.11";
+$server = "127.0.0.1";
 $port = 41234;
 
 while (true) {

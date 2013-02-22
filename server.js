@@ -16,7 +16,7 @@ var mongoHost = nconf.get('mongo');
 var mongoCollection = nconf.get('collection');
 var collection = null;
 
-console.log("~ Session proxy 0.1.0");
+console.log('~ Session proxy 0.1.0');
 console.log("~");
 console.log("~");
 console.log("~ Mongo host = " + mongoHost);
@@ -41,10 +41,12 @@ var stream = fs.createWriteStream("received.json", { flags: 'w',
 var server = dgram.createSocket("udp4");
 
 server.on("message", function (msg, rinfo) {
-//    console.log("server got: " + msg + " from "  + rinfo.address + ":" + rinfo.port);
+    console.log("server got: " + msg + " from "  + rinfo.address + ":" + rinfo.port);
     var data = JSON.parse(msg); 
     var session = collection.findOne({ses_id: data.ses_id}, function(err, result){
         if (!err) {
+            var processor = require('./processor');
+            console.log(processor.process(data, result));
             if (result) {
                 collection.update({ses_id: data.ses_id}, {$set:data}, {w:1}, function(err, result){
                     if (err) {console.log(err);}
