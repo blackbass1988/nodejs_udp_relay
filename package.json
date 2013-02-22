@@ -1,6 +1,6 @@
 {
     "name": "udp_relay",
-    "version":"",
+    "version":"0.1.0",
     "private": true,
     "dependencies": {
         "mongodb": ">=0.9.6-7",
