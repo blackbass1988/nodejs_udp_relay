@@ -45,9 +45,10 @@ server.on("message", function (msg, rinfo) {
     var data = JSON.parse(msg); 
     var session = collection.findOne({ses_id: data.ses_id}, function(err, result){
         if (!err) {
-            var processor = require('./processor');
-            console.log(processor.process(data, result));
             if (result) {
+                var processor = require('./processor');
+                data = processor.process(data, result);
+                console.log(data);
                 collection.update({ses_id: data.ses_id}, {$set:data}, {w:1}, function(err, result){
                     if (err) {console.log(err);}
                 });
@@ -56,7 +57,9 @@ server.on("message", function (msg, rinfo) {
                     if (err) {console.log(err);}
                 });
             }
+//            if (result.isBad) {
 //            memcacheClient.set(data.name, data, 600, function() {});
+//            }
         }
     });
 
