@@ -42,14 +42,14 @@ var server = dgram.createSocket("udp4");
 
 server.on("message", function (msg, rinfo) {
     console.log("server got: " + msg + " from "  + rinfo.address + ":" + rinfo.port);
-    var data = JSON.parse(msg); 
+    var newData = JSON.parse(msg); 
     var session = collection.findOne({ses_id: data.ses_id}, function(err, result){
         if (!err) {
             if (result) {
                 var processor = require('./processor');
-                data = processor.process(data, result);
+                newData = processor.process(newData, result);
                 console.log(data);
-                collection.update({ses_id: data.ses_id}, {$set:data}, {w:1}, function(err, result){
+                collection.update({ses_id: data.ses_id}, {$set:newData}, {w:1}, function(err, result){
                     if (err) {console.log(err);}
                 });
             } else {
