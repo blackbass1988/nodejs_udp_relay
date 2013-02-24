@@ -43,23 +43,22 @@ var server = dgram.createSocket("udp4");
 server.on("message", function (msg, rinfo) {
     console.log("server got: " + msg + " from "  + rinfo.address + ":" + rinfo.port);
     var newData = JSON.parse(msg); 
-    var session = collection.findOne({ses_id: data.ses_id}, function(err, result){
+    var session = collection.findOne({ses_id: newData.ses_id}, function(err, result){
         if (!err) {
             if (result) {
                 var processor = require('./processor');
                 newData = processor.process(newData, result);
-                console.log(data);
-                collection.update({ses_id: data.ses_id}, {$set:newData}, {w:1}, function(err, result){
+                collection.update({ses_id: newData.ses_id}, {$set:newData}, {w:1}, function(err, result){
                     if (err) {console.log(err);}
                 });
             } else {
-                collection.insert(data, {w:1}, function(err, result) {
+                collection.insert(newData, {w:1}, function(err, result) {
                     if (err) {console.log(err);}
                 });
             }
-//            if (result.isBad) {
-//            memcacheClient.set(data.name, data, 600, function() {});
-//            }
+            if (newData.isBad === undefined && newData.isBad) {
+            memcacheClient.set(newData.ses_id, newData, 600, function() {});
+            }
         }
     });
 
