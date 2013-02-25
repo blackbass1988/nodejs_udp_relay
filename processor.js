@@ -6,6 +6,7 @@ module.exports = {
         } else {
             data.countTimes = oldData.countTimes + 1;
         }
+        console.log(oldData.userData);
         if (oldData.userData !== undefined) {
             data.userData = mergeObjects(data.userData, oldData.userData);
         }
