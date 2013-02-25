@@ -7,7 +7,7 @@ module.exports = {
             data.countTimes = oldData.countTimes + 1;
         }
         if (oldData.userData !== undefined) {
-            data = mergeObjects(data, oldData);
+            data.userData = mergeObjects(data.userData, oldData.userData);
         }
 
         return data;
