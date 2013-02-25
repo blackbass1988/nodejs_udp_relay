@@ -22,7 +22,7 @@ var readOnly=['reg_time'];
 
 function mergeObjects(a, b) {
     for (var attrName in b) {
-        if (readOnly.indexOf(attrName)){
+        if (readOnly.indexOf(attrName) > 0){
             a[attrName] = b[attrName];
         } else if (onlyUpdatable.indexOf(attrName) == -1) {
             a[attrName] = a[attrName] === undefined ? b[attrName] : a[attrName] + b[attrName];
