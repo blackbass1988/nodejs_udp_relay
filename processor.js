@@ -6,9 +6,9 @@ module.exports = {
         } else {
             data.countTimes = oldData.countTimes + 1;
         }
-        console.log(oldData.userData);
-        if (oldData.userData !== undefined) {
-            data.userData = mergeObjects(data.userData, oldData.userData);
+        console.log(oldData.user_data);
+        if (oldData.user_data !== undefined) {
+            data.user_data = mergeObjects(data.user_data, oldData.user_data);
         }
 
         return data;
