@@ -18,15 +18,16 @@ module.exports = {
 }
 
 var onlyUpdatable = ['http_referer'];
-
+var readOnly=['reg_time'];
 
 function mergeObjects(a, b) {
     for (var attrName in b) {
-        console.log(b);
+        if (readOnly.indexOf(attrName)){
+            continue;
+        }
         if (onlyUpdatable.indexOf(attrName) == -1) {
             a[attrName] = a[attrName] === undefined ? b[attrName] : a[attrName] + b[attrName];
         }
-        console.log(a[attrName]);
     }
     return a;
 }
