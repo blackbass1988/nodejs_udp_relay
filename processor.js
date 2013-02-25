@@ -1,7 +1,23 @@
 module.exports = {
 
-    process: function (data, delta) {
-        data.body += delta.body;
+    process: function (data, oldData) {
+        if (data.countTimes === undefined){
+            data.countTimes = 2;
+        } else {
+            data.countTimes = oldData.countTimes + 1;
+        }
+        if (oldData.userData !== undefined) {
+            data = mergeObjects(data, oldData);
+        }
+
         return data;
     }
+}
+
+
+function mergeObjects(a, b) {
+    for (var attrName in b) {
+        a[attrName] = a[attrName] === undefined ? b[attrName] : a[attrName] + b[attrName];
+    }
+    return a;
 }
